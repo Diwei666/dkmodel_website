@@ -37,10 +37,17 @@
           body: JSON.stringify({ email, password })
         });
         const data = await res.json();
+
         if(res.ok){
+          // 注册成功 → 跳转到 login.html，并自动填充表单
           msg.style.color = 'green';
-          msg.textContent = '注册成功，2秒后跳转登录...';
-          setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+          msg.textContent = '注册成功，即将跳转到登录页...';
+
+          // 使用 sessionStorage 临时保存注册信息
+          sessionStorage.setItem('preFillEmail', email);
+          sessionStorage.setItem('preFillPassword', password);
+
+          setTimeout(() => { window.location.href = 'login.html'; }, 1000);
         } else {
           msg.style.color = 'red';
           msg.textContent = data.error || '注册失败';

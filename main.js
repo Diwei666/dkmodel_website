@@ -1,0 +1,48 @@
+// main.js — 首页登录状态检测与按钮切换（事件驱动，不轮询）
+
+document.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('token');
+  const loginBtn = document.getElementById('btn-login');
+  const registerBtn = document.getElementById('btn-register');
+
+  if (token) {
+    // 已登录状态，调用 profile API 获取用户名
+    fetch('/api/profile', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          // token 无效或过期
+          localStorage.removeItem('token');
+        } else {
+          // 替换按钮为 用户名 + 登出
+          loginBtn.textContent = data.email || '用户';
+          loginBtn.href = '#';
+
+          registerBtn.textContent = '登出';
+          registerBtn.href = '#';
+          registerBtn.style.background = 'var(--brand)';
+          registerBtn.style.color = '#fff';
+          registerBtn.style.padding = '8px 12px';
+          registerBtn.style.borderRadius = '8px';
+          registerBtn.style.textDecoration = 'none';
+
+          registerBtn.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            location.reload();
+          });
+        }
+      })
+      .catch(err => console.error('获取用户信息失败:', err));
+  }
+
+  // 可选：平滑滚动功能
+  document.querySelectorAll('[data-scroll]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+});
