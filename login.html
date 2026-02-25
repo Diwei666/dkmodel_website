@@ -28,11 +28,11 @@
     const prePassword = sessionStorage.getItem('preFillPassword');
     if(preEmail) emailInput.value = preEmail;
     if(prePassword) passwordInput.value = prePassword;
-    // 用完后清除，避免泄露密码
     sessionStorage.removeItem('preFillEmail');
     sessionStorage.removeItem('preFillPassword');
 
-    btn.addEventListener('click', async () => {
+    btn.addEventListener('click', async (event) => {
+      event.preventDefault(); // 阻止表单默认提交
       const email = emailInput.value.trim();
       const password = passwordInput.value;
 
@@ -48,6 +48,7 @@
           body: JSON.stringify({ email, password })
         });
         const data = await res.json();
+
         if(res.ok){
           localStorage.setItem('token', data.token);
           msg.style.color = 'green';
