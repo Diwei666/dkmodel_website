@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>个人中心 - DKmodel</title>
+  <link rel="stylesheet" href="public/style.css">
+</head>
+<body>
+  <div class="wrap center-page">
+    <div id="profileCard">
+      <h2>个人中心</h2>
+      <p>邮箱: <span id="emailDisplay"></span></p>
+      <button id="logoutBtn">登出</button>
+      <div id="msg"></div>
+      <a href="index.html">返回首页</a>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const emailDisplay = document.getElementById('emailDisplay');
+    const msg = document.getElementById('msg');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (!token) {
+      window.location.href = 'login.html';
+    } else {
+      fetch('/api/profile', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.error){
+          msg.textContent = data.error;
+          msg.style.color = 'red';
+          localStorage.removeItem('token');
+          setTimeout(() => window.location.href = 'login.html', 1500);
+        } else {
+          emailDisplay.textContent = data.email || '未知';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        msg.textContent = '无法获取用户信息';
+        msg.style.color = 'red';
+      });
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

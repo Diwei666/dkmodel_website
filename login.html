@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>登录 - DKmodel</title>
+  <link rel="stylesheet" href="public/style.css">
+</head>
+<body>
+  <div class="wrap center-page">
+    <form id="loginForm">
+      <h2>用户登录</h2>
+      <input type="email" id="email" placeholder="邮箱" required>
+      <input type="password" id="password" placeholder="密码" required>
+      <button type="button" id="loginBtn">登录</button>
+      <div id="msg"></div>
+      <a href="register.html">没有账号？去注册</a>
+    </form>
+  </div>
+
+  <script>
+    const btn = document.getElementById('loginBtn');
+    const msg = document.getElementById('msg');
+
+    btn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if(!email || !password){
+        msg.textContent = '请填写完整信息';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if(res.ok){
+          localStorage.setItem('token', data.token);
+          msg.style.color = 'green';
+          msg.textContent = '登录成功，跳转中...';
+          setTimeout(() => { window.location.href = 'profile.html'; }, 1000);
+        } else {
+          msg.style.color = 'red';
+          msg.textContent = data.error || '登录失败';
+        }
+      } catch(err){
+        msg.style.color = 'red';
+        msg.textContent = '网络错误';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

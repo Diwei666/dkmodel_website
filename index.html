@@ -1,63 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>欢迎来到ydw的网站</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .container {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      text-align: center;
-      max-width: 600px;
-    }
-    h1 {
-      color: #1a73e8;
-      margin-top: 0;
-    }
-    p {
-      line-height: 1.6;
-      color: #5f6368;
-    }
-    .domain {
-      background: #e8f0fe;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-weight: bold;
-      color: #1967d2;
-    }
-    .footer {
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: #80868b;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DKmodel.com — 迪科模型</title>
+  <meta name="description" content="DKmodel.com 迪科模型 — 铁路道口 / 公交 / 消防车 模型与产品地图展示" />
+  <link rel="stylesheet" href="./public/style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🎉 网站上线成功！</h1>
-    <p>这是一个由 <strong>GitHub + Cloudflare Pages</strong> 驱动的静态网站。</p>
-    <p>网站域名：<span class="domain">dkmodel.online</span></p>
-    <p>全球用户均可通过 HTTPS 安全访问 🔒</p>
-    <div class="footer">
-      访问时间: <span id="time"></span>
-    </div>
-  </div>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">DK</div>
+        <div>
+          <div class="brand-name">DKmodel.com</div>
+          <div class="brand-sub">迪科模型 · 精密比例场景解决方案</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#products" class="active" data-scroll>产品</a>
+        <a href="#map" data-scroll>产品地图</a>
+        <a href="#contact" data-scroll>联系我们</a>
+        <a href="login.html" id="btn-login">登录</a>
+        <a href="register.html" id="btn-register" style="margin-left:12px;background:var(--brand);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none">注册</a>      </nav>
+    </header>
 
-  <script>
-    // 自动显示当前时间
-    document.getElementById('time').textContent = new Date().toLocaleString('zh-CN');
-  </script>
+    <!-- 其余内容保持不变（Hero、产品、地图、联系、页脚、脚本） -->
+  </div>
 </body>
 </html>

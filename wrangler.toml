@@ -1,0 +1,11 @@
+name = "dkmodel"
+main = "functions"
+compatibility_date = "2024-10-01"
+
+[vars]
+JWT_SECRET = "replace_with_a_random_secret"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dkmodel-users"
+database_id = "your-d1-id"

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>注册 - DKmodel</title>
+  <link rel="stylesheet" href="public/style.css">
+</head>
+<body>
+  <div class="wrap center-page">
+    <form id="registerForm">
+      <h2>用户注册</h2>
+      <input type="email" id="email" placeholder="邮箱" required>
+      <input type="password" id="password" placeholder="密码" required>
+      <button type="button" id="registerBtn">注册</button>
+      <div id="msg"></div>
+      <a href="login.html">已有账号？去登录</a>
+    </form>
+  </div>
+
+  <script>
+    const btn = document.getElementById('registerBtn');
+    const msg = document.getElementById('msg');
+
+    btn.addEventListener('click', async () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if(!email || !password){
+        msg.textContent = '请填写完整信息';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if(res.ok){
+          msg.style.color = 'green';
+          msg.textContent = '注册成功，2秒后跳转登录...';
+          setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+        } else {
+          msg.style.color = 'red';
+          msg.textContent = data.error || '注册失败';
+        }
+      } catch(err){
+        msg.style.color = 'red';
+        msg.textContent = '网络错误';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
